@@ -1,0 +1,19 @@
+{
+  "name": "ng-echarts",
+  "version": "1.0.0",
+  "author":{
+    "name": "liekkas.zeng",
+    "url": "https://liekkas.github.io/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liekkas/ng-echarts.git"
+  },
+  "devDependencies": {
+    "del": "^1.1.1",
+    "gulp": "^3.8.10",
+    "gulp-concat": "^2.4.3",
+    "gulp-jshint": "^1.9.0",
+    "gulp-uglify": "^1.0.2"
+  }
+}
