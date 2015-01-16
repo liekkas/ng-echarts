@@ -7,7 +7,7 @@ var concat = require('gulp-concat');
 var del = require('del');
 
 gulp.task('build',function(){
-    del(['build']);
+    del(['dist']);
 
     gulp.src('src/**/*.js')
         .pipe(concat('ng-echarts.js'))
