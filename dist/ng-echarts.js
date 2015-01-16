@@ -2,17 +2,32 @@
  * Created by liekkas.zeng on 2015/1/7.
  */
 angular.module('ng-echarts',['ng-echarts.theme'])
-    .directive('ngEcharts',['theme',function(theme){
+    .directive('ngEcharts',['$http','theme',function($http,theme){
         return {
             link: function(scope,element,attrs){
                 var chart = echarts.init(element[0]);
 
                 function refreshChart(){
-                    var tn = theme.getTheme(scope.theme);
-                    chart.clear();
-                    chart.setOption(scope.option);
-                    chart.setTheme(tn||{});
-                    chart.resize();
+                    if(angular.isString(scope.option)){
+                        chart.showLoading({text: '数据加载中...'});
+                        $http.get(scope.option).success(function (data) {
+                            chart.hideLoading();
+                            var tn = theme.getTheme(scope.theme);
+                            chart.clear();
+                            chart.setOption(data);
+                            chart.setTheme(tn||{});
+                            chart.resize();
+
+                        }).error(function(){
+                            chart.hideLoading();
+                        })
+                    }else{
+                        var tn = theme.getTheme(scope.theme);
+                        chart.clear();
+                        chart.setOption(scope.option);
+                        chart.setTheme(tn||{});
+                        chart.resize();
+                    }
                 };
 
                 //如果第一个参数直接写成scope.theme;那么只会是第一个图表生效

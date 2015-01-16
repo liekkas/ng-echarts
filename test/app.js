@@ -80,7 +80,8 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
-        $scope.mapOption = {
+        $scope.mapOption = "areamap.json";
+        $scope.mapOption2 = {
             title : {
                 text: 'iphone销量',
                 subtext: '纯属虚构',

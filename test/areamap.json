@@ -1,0 +1,17 @@
+{
+  "series" : [
+    {
+      "name": "中国",
+      "type": "map",
+      "mapType": "新疆",
+      "selectedMode" : "single",
+      "itemStyle":{
+        "normal":{"label":{"show":true}},
+        "emphasis":{"label":{"show":true}}
+      },
+      "data":[
+        {"name":"广东","selected":true}
+      ]
+    }
+  ]
+}
