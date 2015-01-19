@@ -7,6 +7,8 @@ angular.module('ng-echarts',['ng-echarts.theme'])
             link: function(scope,element,attrs){
                 var chart = echarts.init(element[0]);
 
+                bindevent();
+
                 function refreshChart(){
                     chart.showLoading({text: '数据加载中...'});
                     chart.hideLoading();
@@ -16,6 +18,16 @@ angular.module('ng-echarts',['ng-echarts.theme'])
                     chart.setTheme(tn||{});
                     chart.resize();
                 };
+
+                function bindevent(){
+                    if(angular.isArray(scope.event)){
+                        angular.forEach(scope.event,function(value,key){
+                            for(var e in value){
+                                chart.on(e,value[e]);
+                            }
+                        });
+                    }
+                }
 
                 //如果第一个参数直接写成scope.theme;那么只会是第一个图表生效
                 //问题可见 http://segmentfault.com/q/1010000000720618
@@ -34,9 +46,13 @@ angular.module('ng-echarts',['ng-echarts.theme'])
             },
             scope:{
                 theme:'=',
-                option:'='
+                option:'=',
+                event:'='
             },
             restrict:'EA'
         }
-    }]);
+    }])
+    .directive('onClick',function(){
+
+    });
 

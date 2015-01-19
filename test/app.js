@@ -2,13 +2,14 @@
  * Created by liekkas.zeng on 2015/1/7.
  */
 angular.module('NGEchartsTest',['ng-echarts'])
-    .controller('mainCtrl',['$scope','$interval',function($scope,$interval){
+    .controller('MainCtrl',function($scope){
         $scope.themes = ['blue','dark','defaults','gray','green','helianthus','infographic','macarons','red', 'shine'];
-        $scope.theme = 'defaults';
+        $scope.theme = 'gray';
         $scope.themeChanged = function(tn){
             $scope.theme = tn;
         };
-
+    })
+    .controller('Ctrl1',function($scope,$interval){
         $scope.lineOption = {
             title : {
                 text: '未来一周气温变化',
@@ -80,6 +81,21 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
+
+        $interval(function () {
+            var ndata = [];
+            for(var i=0;i<7;i++){
+                ndata[i] = Math.round(Math.random()*10)+10;
+            }
+
+            $scope.lineOption.series[0].data = ndata;
+        }, 5000);
+    })
+    .controller('Ctrl2',function($scope){
+        function oms(params){
+            alert(params.name+':'+params.value);
+        };
+        $scope.event = [{click:oms}];
         $scope.mapOption = {
             title : {
                 text: 'iphone销量',
@@ -218,6 +234,8 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
+    })
+    .controller('Ctrl3',function($scope){
         $scope.barOption = {
             title : {
                 text: '某地区蒸发量和降水量',
@@ -286,6 +304,8 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
+    })
+    .controller('Ctrl4',function($scope){
         $scope.scatterOption = {
             title : {
                 text: '男性女性身高体重分布',
@@ -500,14 +520,4 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
-
-        $interval(function () {
-            var ndata = [];
-            for(var i=0;i<7;i++){
-                ndata[i] = Math.round(Math.random()*10)+10;
-            }
-
-            $scope.lineOption.series[0].data = ndata;
-        }, 5000);
-    }])
-    ;
+    });
