@@ -95,6 +95,7 @@ angular.module('NGEchartsTest',['ng-echarts'])
         function oms(params){
             alert(params.name+':'+params.value);
         };
+
         $scope.event = [{click:oms}];
         $scope.mapOption = {
             title : {
@@ -520,4 +521,15 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
+    })
+    .directive('mc',function(){
+        return {
+            template:'<div>hehe</div>',
+            require: '^ngEcharts',
+            link: function(scope,element,attrs,ctrl){
+                var chart = ctrl.getChart();
+                //scope.chartId = chart.id;
+                alert(chart.id);
+            }
+        }
     });

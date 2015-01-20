@@ -4,19 +4,29 @@
 angular.module('ng-echarts',['ng-echarts.theme'])
     .directive('ngEcharts',['theme',function(theme){
         return {
-            link: function(scope,element,attrs){
-                var chart = echarts.init(element[0]);
+            controller: function($scope,$element){
+                //var t1 = new Date();
+                $scope.chart = echarts.init($element[0]);
+                //console.log($scope.chart.id + "耗时：" + (new Date().getTime()-t1.getTime()) +"s");
+                $scope.chart.showLoading({text: '数据加载中...'});
 
+                this.getChart = function(){
+                    return $scope.chart;
+                }
+            },
+            link: function(scope,element,attrs){
+                var chart = scope.chart;
                 bindevent();
 
                 function refreshChart(){
-                    chart.showLoading({text: '数据加载中...'});
-                    chart.hideLoading();
+
                     var tn = theme.getTheme(scope.theme);
                     chart.clear();
                     chart.setOption(scope.option);
                     chart.setTheme(tn||{});
                     chart.resize();
+
+                    chart.hideLoading();
                 };
 
                 function bindevent(){
@@ -51,10 +61,7 @@ angular.module('ng-echarts',['ng-echarts.theme'])
             },
             restrict:'EA'
         }
-    }])
-    .directive('onClick',function(){
-
-    });
+    }]);
 
 
 /**
