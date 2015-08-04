@@ -29,6 +29,7 @@ angular.module('ng-echarts',['ng-echarts.theme'])
                     chart.hideLoading();
                 };
 
+                //事件绑定
                 function bindevent(){
                     if(angular.isArray(scope.event)){
                         angular.forEach(scope.event,function(value,key){

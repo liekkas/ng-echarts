@@ -524,7 +524,7 @@ angular.module('NGEchartsTest',['ng-echarts'])
     })
     .directive('mc',function(){
         return {
-            template:'<div>hehe</div>',
+            template:'<div></div>',
             require: '^ngEcharts',
             link: function(scope,element,attrs,ctrl){
                 var chart = ctrl.getChart();
