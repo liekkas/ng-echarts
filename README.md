@@ -1,5 +1,7 @@
 angularjs封装echarts
 
+查看[demo](http://liekkas.github.io/ng-echarts/)
+
 =======
 
 如何使用？
