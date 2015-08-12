@@ -15,10 +15,10 @@ gulp
 ng-echarts只需要两个变量：
 > * ecOption：也就是echarts中的option，因此你直接可以把官网的例子拷进来用
 > * ecConfig：其他参数的配置项
-    > * * theme：图表主题
-    > * * event：绑定事件
-    > * * dataLoaded：数据是否加载（用于Loading）
-    > * * loadingOption：加载效果配置项同官网
+    * theme：图表主题
+    * event：绑定事件
+    * dataLoaded：数据是否加载（用于Loading）
+    * loadingOption：加载效果配置项同官网
 
 一个简单示例：
 html中
