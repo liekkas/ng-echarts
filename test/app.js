@@ -31,15 +31,11 @@ angular.module('NGEchartsTest',['ng-echarts'])
     })
     //轮询数据
     .controller('Ctrl1',function($scope,$interval,$timeout){
-        function oms(params){
-            alert(params.name+':'+params.value);
-        };
         $scope.lineConfig = _.cloneDeep($scope.baseConfig);
         $scope.$watch('theme', function (v) {
             $scope.lineConfig.theme = v;
         });
 
-        $scope.event = [{click:oms}];
         $scope.lineOption = {
             title : {
                 text: '未来一周气温变化(5秒后自动轮询)',
