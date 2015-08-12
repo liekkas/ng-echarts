@@ -2,17 +2,47 @@
  * Created by liekkas.zeng on 2015/1/7.
  */
 angular.module('NGEchartsTest',['ng-echarts'])
+    .factory('eventbus', function($rootScope) {
+        var msgBus = {};
+
+        msgBus.emitMsg = function(msg, data) {
+            data = data || {};
+            $rootScope.$emit(msg, data);
+        };
+        msgBus.onMsg = function(msg, func, scope) {
+            var unbind = $rootScope.$on(msg, func);
+            if (scope) {
+                scope.$on('$destroy', unbind);
+            }
+            return unbind;
+        };
+
+        return msgBus;
+    })
     .controller('MainCtrl',function($scope){
         $scope.themes = ['blue','dark','defaults','gray','green','helianthus','infographic','macarons','red', 'shine'];
-        $scope.theme = 'gray';
+        $scope.baseConfig = {
+            theme:'blue',
+            dataLoaded:true
+        };
         $scope.themeChanged = function(tn){
             $scope.theme = tn;
         };
     })
-    .controller('Ctrl1',function($scope,$interval){
+    //轮询数据
+    .controller('Ctrl1',function($scope,$interval,$timeout){
+        function oms(params){
+            alert(params.name+':'+params.value);
+        };
+        $scope.lineConfig = _.cloneDeep($scope.baseConfig);
+        $scope.$watch('theme', function (v) {
+            $scope.lineConfig.theme = v;
+        });
+
+        $scope.event = [{click:oms}];
         $scope.lineOption = {
             title : {
-                text: '未来一周气温变化',
+                text: '未来一周气温变化(5秒后自动轮询)',
                 subtext: '纯属虚构'
             },
             tooltip : {
@@ -81,25 +111,50 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
-
+        var index = 1;
         $interval(function () {
-            var ndata = [];
-            for(var i=0;i<7;i++){
-                ndata[i] = Math.round(Math.random()*10)+10;
-            }
 
-            $scope.lineOption.series[0].data = ndata;
+            var loadText = ['数据加载中...','请等一等!','数据哪里跑','我靠，数据呢？'];
+            var effects = ['spin', 'bar' , 'ring' , 'whirling' , 'dynamicLine' , 'bubble'];
+            $scope.lineConfig.loadingOption = {
+                    text : loadText[_.random(0,loadText.length-1)],
+                    effect : effects[_.random(0,effects.length-1)],
+                    textStyle : {
+                        fontSize : 20
+                    }
+                };
+            $scope.lineConfig.dataLoaded = false;
+
+            $timeout(function () {
+                var ndata = [];
+                for(var i=0;i<7;i++){
+                    ndata[i] = Math.round(Math.random()*10)+10;
+                }
+
+                $scope.lineOption.series[0].data = ndata;
+                $scope.lineOption.title.text = '未来一周气温变化('+index+')';
+                index++;
+
+                $scope.lineConfig.dataLoaded = true;
+            },2500);
+
         }, 5000);
     })
-    .controller('Ctrl2',function($scope){
-        function oms(params){
-            alert(params.name+':'+params.value);
+    //2秒延迟加载数据
+    .controller('Ctrl2',function($scope,$timeout,eventbus){
+        function onClick(params){
+            eventbus.emitMsg('myMsg',params.name);
         };
 
-        $scope.event = [{click:oms}];
-        $scope.mapOption = {
+        $scope.mapConfig = _.cloneDeep($scope.baseConfig);
+        $scope.mapConfig.event = [{click:onClick}];
+        $scope.mapConfig.dataLoaded = false;
+        $scope.$watch('theme', function (v) {
+            $scope.mapConfig.theme = v;
+        });
+        var op = {
             title : {
-                text: 'iphone销量',
+                text: 'iphone销量(联动)',
                 subtext: '纯属虚构',
                 x:'center'
             },
@@ -235,11 +290,21 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
+
+        $timeout(function () {
+            $scope.mapOption = op;
+            $scope.mapConfig.dataLoaded = true;
+        },2000);
     })
-    .controller('Ctrl3',function($scope){
+    .controller('Ctrl3',function($scope,eventbus){
+        $scope.barConfig = _.cloneDeep($scope.baseConfig);
+        $scope.$watch('theme', function (v) {
+            $scope.barConfig.theme = v;
+        });
+
         $scope.barOption = {
             title : {
-                text: '某地区蒸发量和降水量',
+                text: '蒸发量和降水量',
                 subtext: '纯属虚构'
             },
             tooltip : {
@@ -305,8 +370,21 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
+
+        eventbus.onMsg('myMsg', function (v,m) {
+            $scope.$apply(function () {
+                $scope.barOption.title.text = '【'+m+'】蒸发量和降水量';
+            });
+            console.log(v);
+            console.log(m);
+        },$scope);
     })
-    .controller('Ctrl4',function($scope){
+    .controller('Ctrl4',function($scope,eventbus){
+        $scope.scatterConfig = _.cloneDeep($scope.baseConfig);
+        $scope.$watch('theme', function (v) {
+            $scope.scatterConfig.theme = v;
+        });
+
         $scope.scatterOption = {
             title : {
                 text: '男性女性身高体重分布',
@@ -521,15 +599,24 @@ angular.module('NGEchartsTest',['ng-echarts'])
                 }
             ]
         };
+
+        eventbus.onMsg('myMsg', function (v,m) {
+            $scope.$apply(function () {
+                $scope.scatterOption.title.text = '【'+m+'】男性女性身高体重分布';
+            });
+        },$scope);
     })
-    .directive('mc',function(){
+    //另一种加事件方式
+    .directive('ecEx',function(eventbus){
         return {
             template:'<div></div>',
             require: '^ngEcharts',
             link: function(scope,element,attrs,ctrl){
                 var chart = ctrl.getChart();
-                //scope.chartId = chart.id;
-                alert(chart.id);
+                chart.on('click', function (data) {
+                    console.log(data);
+                    eventbus.emitMsg('myMsg',data.name);
+                });
             }
         }
     });

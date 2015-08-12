@@ -19,25 +19,26 @@
 
         <div class="row">
             <div ng-controller="Ctrl1">
-                <ng-echarts class="col-md-6 echarts" theme="theme" option="lineOption" ></ng-echarts>
+                <ng-echarts class="col-md-6 echarts" ec-config="lineConfig" ec-option="lineOption" ></ng-echarts>
             </div>
             <div ng-controller="Ctrl2">
-                <ng-echarts class="col-md-6 echarts" event="event" theme="theme" option="mapOption"></ng-echarts>
+                <ng-echarts class="col-md-6 echarts" ec-config="mapConfig" theme="theme" ec-option="mapOption"></ng-echarts>
             </div>
         </div>
 
         <div class="row">
             <div ng-controller="Ctrl3">
-                <ng-echarts class="col-md-6 echarts" theme="theme" option="barOption" ></ng-echarts>
+                <ng-echarts ec-ex class="col-md-6 echarts" ec-config="barConfig" ec-option="barOption" ></ng-echarts>
             </div>
             <div ng-controller="Ctrl4">
-                <ng-echarts mc class="col-md-6 echarts" theme="theme" option="scatterOption" ></ng-echarts>
+                <ng-echarts class="col-md-6 echarts" ec-config="scatterConfig" ec-option="scatterOption" ></ng-echarts>
             </div>
         </div>
     </div>
 
     <script src="http://cdn.bootcss.com/echarts/2.2.7/echarts-all.js"></script>
     <script src="http://cdn.bootcss.com/angular.js/1.3.17/angular.min.js"></script>
+    <script src="http://cdn.bootcss.com/lodash.js/3.10.1/lodash.js"></script>
     <script src="../dist/ng-echarts.js"></script>
     <script src="app.js"></script>
 </body>
