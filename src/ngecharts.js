@@ -4,7 +4,7 @@
 angular.module('ng-echarts',['ng-echarts.theme'])
     .directive('ngEcharts',['theme',function(theme){
         return {
-            controller: function($scope,$element){
+            controller: ['$scope','$element', function($scope,$element){
                 $scope.chart = echarts.init($element[0]);
 
                 this.getChart = function(){
@@ -26,7 +26,7 @@ angular.module('ng-echarts',['ng-echarts.theme'])
                 this.hideLoading = function () {
                     $scope.chart.hideLoading();
                 };
-            },
+            }],
             link: function(scope,element,attrs,ctrl){
                 var chart = scope.chart;
 
