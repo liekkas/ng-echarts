@@ -37,7 +37,6 @@ angular.module('ng-echarts',['ng-echarts.theme'])
 
                     if(scope.config && scope.config.dataLoaded){
                         var tn = theme.getTheme(scope.config.theme);
-                        chart.clear();
                         chart.setOption(scope.option);
                         chart.setTheme(tn||{});
                         chart.resize();
