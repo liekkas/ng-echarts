@@ -31,6 +31,7 @@ angular.module('ng-echarts',['ng-echarts.theme'])
                 var chart = scope.chart;
 
                 function refreshChart(){
+                    chart.clear();
                     if(scope.config && scope.config.dataLoaded === false){
                         ctrl.showLoading(scope.config.loadingOption);
                     }
