@@ -1,68 +1,38 @@
 /**
  * Created by liekkas.zeng on 2015/1/7.
  */
-angular.module('ng-echarts',['ng-echarts.theme'])
-    .directive('ngEcharts',['theme',function(theme){
+angular.module('ng-echarts',[])
+    .directive('ngEcharts',[function(){
         return {
-            controller: ['$scope','$element', function($scope,$element){
-                $scope.chart = echarts.init($element[0]);
-
-                this.getChart = function(){
-                    return $scope.chart;
-                };
-
-                this.showLoading = function (loadingOption) {
-
-                    var op = loadingOption || {
-                            text : '数据加载中',
-                            effect : 'bubble',
-                            textStyle : {
-                                fontSize : 20
-                            }
-                        };
-                    $scope.chart.showLoading(op);
-                };
-
-                this.hideLoading = function () {
-                    $scope.chart.hideLoading();
-                };
-            }],
             link: function(scope,element,attrs,ctrl){
-                var chart = scope.chart;
-
                 function refreshChart(){
-                    chart.clear();
+                    var theme = (scope.config && scope.config.theme)
+                        ? scope.config.theme : 'default';
+                    var chart = echarts.init(element[0],theme);
                     if(scope.config && scope.config.dataLoaded === false){
-                        ctrl.showLoading(scope.config.loadingOption);
+                        chart.showLoading();
                     }
 
                     if(scope.config && scope.config.dataLoaded){
-                        var tn = theme.getTheme(scope.config.theme);
                         chart.setOption(scope.option);
-                        chart.setTheme(tn||{});
                         chart.resize();
-                        ctrl.hideLoading();
+                        chart.hideLoading();
+                    }
+
+                    if(scope.config && scope.config.event){
+                        if(angular.isArray(scope.config.event)){
+                            angular.forEach(scope.config.event,function(value,key){
+                                for(var e in value){
+                                    chart.on(e,value[e]);
+                                }
+                            });
+                        }
                     }
                 };
 
-                //事件绑定
-                function bindevent(){
-                    if(angular.isArray(scope.config.event)){
-                        angular.forEach(scope.config.event,function(value,key){
-                            for(var e in value){
-                                chart.on(e,value[e]);
-                            }
-                        });
-                    }
-                }
-
-                if(scope.config.event){
-                    bindevent();
-                }
-
-                //自定义参数 -
+                //自定义参数 - config
                 // event 定义事件
-                // theme 主题
+                // theme 主题名称
                 // dataLoaded 数据是否加载
 
                 scope.$watch(

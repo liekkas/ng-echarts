@@ -1,28 +1,29 @@
-angularjs封装echarts
+angularjs封装echarts V3.0.0
 
-查看[demo](http://liekkas.github.io/ng-echarts/)
+## 更新说明
+> 支持ECharts3.x,如果想用ECharts2.x,请用V2.0.0版本
+> 3.x主题API发生了改变,去掉了内置的主题
 
 =======
 
-先看[demo](http://liekkas.github.io/ng-echarts/)
+## 组件构建
+> git clone https://github.com/liekkas/ng-echarts.git
+> npm i
+> gulp
 
-如何使用？
-```
-npm install
+## [在线DEMO](http://liekkas.github.io/ng-echarts/v3/)
 
-```
-然后执行
-```
-gulp
-```
+## 组件应用
 
 ng-echarts只需要两个变量：
 > * ecOption：也就是echarts中的option，因此你直接可以把官网的例子拷进来用
 > * ecConfig：其他参数的配置项
-    * theme：图表主题
+    * theme：图表主题名称, 
     * event：绑定事件
     * dataLoaded：数据是否加载（用于Loading）
-    * loadingOption：加载效果配置项同官网
+### 注意事项
+>* ECharts3.0没有内置地图,如果想用地图组件,需要先引入地图数据,[点这里](http://echarts.baidu.com/download-map.html)
+>* ECharts3.0主题设置也发生了,变化,需要先引入主题数据,[点这里](http://echarts.baidu.com/download-theme.html)
 
 一个简单示例：
 html中
@@ -34,8 +35,13 @@ html中
 js中
 ```
     .controller('Ctrl1',function($scope,$interval,$timeout){
+            function onClick(params){
+                console.log(params);
+            };
+            
             $scope.lineConfig = {
-                                theme:'blue',
+                                theme:'default',
+                                event: [{click:onClick}],
                                 dataLoaded:true
                             };
     
