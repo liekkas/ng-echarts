@@ -11,7 +11,7 @@ angularjs封装echarts V3.0.0
 > npm i
 > gulp
 
-## [在线DEMO](http://liekkas.github.io/ng-echarts/v3/)
+## [在线DEMO](http://liekkas.github.io/ng-echarts/)
 
 ## 组件应用
 
