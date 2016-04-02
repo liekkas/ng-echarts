@@ -20,9 +20,9 @@ angular.module('NGEchartsTest',['ng-echarts'])
         return msgBus;
     })
     .controller('MainCtrl',function($scope){
-        $scope.themes = ['blue','dark','defaults','gray','green','helianthus','infographic','macarons','red', 'shine'];
+        $scope.themes = ['vintage','default'];
         $scope.baseConfig = {
-            theme:'blue',
+            theme:'vintage',
             dataLoaded:true
         };
         $scope.themeChanged = function(tn){
@@ -109,18 +109,7 @@ angular.module('NGEchartsTest',['ng-echarts'])
         };
         var index = 1;
         $interval(function () {
-
-            var loadText = ['数据加载中...','请等一等!','数据哪里跑','我靠，数据呢？'];
-            var effects = ['spin', 'bar' , 'ring' , 'whirling' , 'dynamicLine' , 'bubble'];
-            $scope.lineConfig.loadingOption = {
-                    text : loadText[_.random(0,loadText.length-1)],
-                    effect : effects[_.random(0,effects.length-1)],
-                    textStyle : {
-                        fontSize : 20
-                    }
-                };
             $scope.lineConfig.dataLoaded = false;
-
             $timeout(function () {
                 var ndata = [];
                 for(var i=0;i<7;i++){
@@ -150,7 +139,7 @@ angular.module('NGEchartsTest',['ng-echarts'])
         });
         var op = {
             title : {
-                text: 'iphone销量(联动)',
+                text: 'iphone销量(联动-点击省份下面两图表跟随变化)',
                 subtext: '纯属虚构',
                 x:'center'
             },
@@ -602,17 +591,4 @@ angular.module('NGEchartsTest',['ng-echarts'])
             });
         },$scope);
     })
-    //另一种加事件方式
-    .directive('ecEx',function(eventbus){
-        return {
-            template:'<div></div>',
-            require: '^ngEcharts',
-            link: function(scope,element,attrs,ctrl){
-                var chart = ctrl.getChart();
-                chart.on('click', function (data) {
-                    console.log(data);
-                    eventbus.emitMsg('myMsg',data.name);
-                });
-            }
-        }
-    });
+
