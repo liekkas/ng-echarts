@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html ng-app="NGEchartsTest">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>ng-echarts test</title>
+    <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="app.css"/>
+</head>
+<body ng-controller="MainCtrl">
+
+    <div class="container-fluid" >
+        <div class="row btn-group">
+            <div class="btn-group" ng-repeat="theme in themes">
+                <button type="button" class="btn btn-info" ng-bind="theme" ng-click="themeChanged(theme)"></button>
+            </div>
+        </div>
+        <div style="height:10px;"></div>
+
+        <div class="row">
+            <div ng-controller="Ctrl1">
+                <ng-echarts class="col-md-6 echarts" ec-config="lineConfig" ec-option="lineOption" ></ng-echarts>
+            </div>
+            <div ng-controller="Ctrl2">
+                <ng-echarts class="col-md-6 echarts" ec-config="mapConfig" theme="theme" ec-option="mapOption"></ng-echarts>
+            </div>
+        </div>
+
+        <div class="row">
+            <div ng-controller="Ctrl3">
+                <ng-echarts ec-ex class="col-md-6 echarts" ec-config="barConfig" ec-option="barOption" ></ng-echarts>
+            </div>
+            <div ng-controller="Ctrl4">
+                <ng-echarts class="col-md-6 echarts" ec-config="scatterConfig" ec-option="scatterOption" ></ng-echarts>
+            </div>
+        </div>
+    </div>
+
+    <script src="//cdn.bootcss.com/echarts/3.0.0/echarts.min.js"></script>
+    <script src="http://cdn.bootcss.com/angular.js/1.3.17/angular.min.js"></script>
+    <script src="http://cdn.bootcss.com/lodash.js/3.10.1/lodash.js"></script>
+    <script src="vintage.js"></script>
+    <script src="china.js"></script>
+    <script src="../dist/ng-echarts.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
