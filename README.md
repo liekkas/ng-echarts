@@ -1,11 +1,12 @@
-angularjs封装echarts V3.0.0
+angularjs版echarts 支持最新ECharts3.x
 
 ## 更新说明
 > 支持ECharts3.x,如果想用ECharts2.x,请用V2.0.0版本
 
 > 3.x主题API发生了改变,去掉了内置的主题
 
-=======
+## 下载
+> npm i ng-echarts --save-dev
 
 ## 组件构建
 >* git clone https://github.com/liekkas/ng-echarts.git
