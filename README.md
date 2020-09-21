@@ -1,4 +1,4 @@
-angularjs版echarts 支持最新ECharts3.x
+angularjs版echarts 支持最新[Apache ECharts (incubating)](https://github.com/apache/incubator-echarts) 3.x
 
 ## 更新说明
 > 支持ECharts3.x,如果想用ECharts2.x,请用V2.0.0版本
